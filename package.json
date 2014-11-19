@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "start": "DEBUG=facebook-music-recommender nodemon ./bin/www"
+    "start": "DEBUG=facebook-music-recommender nodemon ./start.js"
   },
   "dependencies": {
     "body-parser": "~1.8.1",
@@ -13,7 +13,9 @@
     "morgan": "~1.3.0",
     "passport": "^0.2.1",
     "passport-facebook": "^1.0.3",
+    "pg": "^3.6.3",
     "sequelize": "^2.0.0-rc2",
+    "sequelize-cli": "^0.3.3",
     "serve-favicon": "~2.1.3"
   }
 }

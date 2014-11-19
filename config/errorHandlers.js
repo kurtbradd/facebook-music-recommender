@@ -1,3 +1,8 @@
+/* 
+ * This file contains the error handlers that catch any errors that
+ * occur during the operation of the server.
+ */
+
 exports.setup = function(app) {
   app.use(function(req, res, next) {
     var err = new Error('Not Found');

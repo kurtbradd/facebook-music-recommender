@@ -1,3 +1,8 @@
+/* 
+ * This file exports the configuration Express.js back to the application
+ * so that it can be used in other parts of the product.
+ */
+
 var path = require('path');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');

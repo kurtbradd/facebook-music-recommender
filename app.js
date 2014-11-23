@@ -9,10 +9,7 @@ var passportConfig = require('./config/passportConfig');
 var app = express();
 
 expressConfig.setup(app, express);
-passportConfig(passport);
-
-app.use(passport.initialize());
-app.use(passport.session());
+passportConfig(app, passport);
 
 require('./routes/routes.js')(app, passport);
 

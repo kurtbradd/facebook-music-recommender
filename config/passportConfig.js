@@ -29,16 +29,16 @@ module.exports = function(app, passport) {
   });
 
   // Setup for the Facebook authentication strategy
-	passport.use(new FacebookStrategy({
-			clientID        : keys.facebook.APP_ID,
-			clientSecret    : keys.facebook.SECRET,
-			callbackURL     : keys.facebook.CALLBACK
-		},
-		
-		function(accessToken, refreshToken, profile, done) {
+  passport.use(new FacebookStrategy({
+      clientID        : keys.facebook.APP_ID,
+      clientSecret    : keys.facebook.SECRET,
+      callbackURL     : keys.facebook.CALLBACK
+    },
+    
+    function(accessToken, refreshToken, profile, done) {
 
       // Performs verification asynchronously
-			process.nextTick(function() {
+      process.nextTick(function() {
 
         // Queries the database to see if the user is already stored there
         model.User.find({ where: { facebookId: profile.id }}, {})
@@ -74,6 +74,6 @@ module.exports = function(app, passport) {
         });
 
       });
-		}
+    }
   ));
 }

@@ -3,7 +3,12 @@ module.exports = function(app, passport) {
 
   app.get('/auth/facebook/callback',
   passport.authenticate('facebook', {
-    successRedirect : '/profile',
     failureRedirect : '/'
-  }));
+  }), function(req, res) {
+    return res.status(200).send(req.user);
+  });
+
+  app.get('/profile', function(req, res) {
+    return res.send(200);
+  });
 };

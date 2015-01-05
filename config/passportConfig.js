@@ -21,7 +21,7 @@ module.exports = function(app, passport) {
   passport.deserializeUser(function(id, done) {
     model.User.find({ where: { id: id }})
     .then(function(user) {
-      done(null, user);
+      done(null, user.dataValues);
     })
     .catch(function(err) {
       done(err, null);
@@ -70,10 +70,10 @@ module.exports = function(app, passport) {
         })
 
         .catch(function(err) {
-          done(err, null)
+          done(err, null);
         });
 
       });
     }
   ));
-}
+};

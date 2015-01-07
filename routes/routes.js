@@ -20,4 +20,8 @@ module.exports = function(app, passport) {
 
   app.get('/api/genre', genreController.getGenres);
   app.get('/api/genre/artists', genreController.getArtistsByGenre);
+
+  app.get('*', function(req, res) {
+    return res.render('index.html');
+  });
 };

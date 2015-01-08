@@ -8,11 +8,13 @@ var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var session = require('express-session');
+var cors = require('cors');
 
 exports.setup = function(app, express) {
   app.set('views', 'public/views');
   app.engine('html', require('ejs').renderFile);
   app.use(logger('dev'));
+  app.use(cors());
   app.use(bodyParser.json());
   app.use(bodyParser.urlencoded({ extended: false }));
   app.use(session({ secret: 'mylittlesecret' , resave: false, saveUninitialized: false }));

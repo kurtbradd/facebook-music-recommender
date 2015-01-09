@@ -1,14 +1,18 @@
 var artistController = require('../controllers/artist-controller');
 var genreController = require('../controllers/genre-controller');
+var queue = require('../workers/queue');
 
 module.exports = function(app, passport) {
-  app.get('/auth/facebook', passport.authenticate('facebook', { scope : 'email' }));
+  app.get('/auth/facebook', passport.authenticate('facebook', { scope : ['email', 'user_likes'] }));
 
   app.get('/auth/facebook/callback',
   passport.authenticate('facebook', {
-    failureRedirect : '/',
-    successRedirect : '/'
-  }));
+    failureRedirect : '/'
+  }),
+  function(req, res) {
+    queue.crawlUser(req.user.dataValues);
+    res.redirect('/');
+  });
 
   app.get('/profile', function(req, res) {
     return res.send(200);

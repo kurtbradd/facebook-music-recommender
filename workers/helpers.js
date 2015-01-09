@@ -1,6 +1,7 @@
 var request = require('request');
 var model = require('../models/index');
 var queue = require ('./queue');
+var keys = require('../config/keys');
 
 /* Crawls each user for their likes and inserts into the database */
 exports.crawlUser = function(job, done) {
@@ -28,6 +29,31 @@ exports.crawlUser = function(job, done) {
   });
 
   done();
+}
+
+/* Adds a genre to the database if it is not already present */
+exports.crawlGenre = function(artist) {
+  var echonestUrl = 'http://developer.echonest.com/api/v4/artist/genres?api_key=';
+  echonestUrl += keys.echonest.APP_ID;
+  echonestUrl += '&id=facebook:artist:';
+  echonestUrl += artist.dataValues.facebookId;
+  echonestUrl += '&format=json';
+
+  request(echonestUrl, function(error, response, body) {
+    var data = JSON.parse(body);
+    if (data.response.status.code === 5) {
+      artist.updateAttributes({ genre: -1 });
+    }
+    else if (data.response.terms) {
+      model.Genre.findOrCreate({ where: { genre: data.response.terms.genre } })
+      .spread(function(genre, created) {
+        artist.updateAttributes({ genre: genre.dataValues.id });
+      })
+      .catch(function(err) {
+        console.log(err)
+      });
+    }
+  });
 }
 
 /* Adds an artist to the database if no one has liked them before */

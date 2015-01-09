@@ -21,3 +21,13 @@ exports.crawlUserPaging = function(user, facebookUrl) {
     if (err) console.log(err);
   });
 };
+
+/* Creates a job for crawling for unfound genres in the database */
+exports.crawlGenres = function() {
+  var job = jobs.create('crawlGenres', {
+    limit: 20
+  })
+  .save(function(err) {
+    if (err) console.log(err);
+  });
+};

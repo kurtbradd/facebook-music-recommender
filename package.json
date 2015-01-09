@@ -17,6 +17,7 @@
     "passport": "^0.2.1",
     "passport-facebook": "^1.0.3",
     "pg": "^3.6.3",
+    "predictionio": "0.0.7",
     "request": "^2.51.0",
     "sequelize": "^2.0.0-rc2",
     "sequelize-cli": "^0.3.3",

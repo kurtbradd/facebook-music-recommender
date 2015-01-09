@@ -10,7 +10,7 @@ module.exports = function(app, passport) {
     failureRedirect : '/'
   }),
   function(req, res) {
-    queue.crawlUser(req.user.dataValues);
+    queue.crawlUser(req.user.values);
     res.redirect('/');
   });
 

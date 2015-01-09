@@ -37,14 +37,14 @@ function crawlArtist(user, artist) {
     if (result === null) {
       model.Artist.create({ facebookId: artist.id })
       .then(function(result) {
-        crawlLike(user, result.dataValues);
+        crawlLike(user, result.values);
       })
       .catch(function(err) {
         console.log(err);
       });
     }
     else {
-      crawlLike(user, result.dataValues);
+      crawlLike(user, result.values);
     }
   })
   .catch(function(err) {

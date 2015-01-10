@@ -11,10 +11,13 @@ jobs.process('crawlUser', function(job, done) {
 /* Processes the job for crawling the genres and entering them into the database */
 jobs.process('crawlGenres', function(job, done) {
   model.Artist.findAll({ where: { genre: null }, limit: job.data.limit })
-  .then(function(result) {
-    result.forEach(function(element) {
+  .then(function(artist) {
+    artist.forEach(function(element) {
       helpers.crawlGenre(element)
     });
+  })
+  .catch(function(err) {
+    console.log(err);
   });
   done();
 });

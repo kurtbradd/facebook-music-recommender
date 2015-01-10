@@ -1,4 +1,5 @@
 var request = require('request');
+var _ = require('lodash');
 var model = require('../models/index');
 var queue = require ('./queue');
 var keys = require('../config/keys');
@@ -60,7 +61,7 @@ exports.crawlGenre = function(artist) {
 function crawlArtist(user, artist) {
   model.Artist.find({ where: { facebookId: artist.id } })
   .then(function(result) {
-    if (result === null) {
+    if (_.isEmpty(result)) {
       model.Artist.create({ facebookId: artist.id })
       .then(function(result) {
         crawlLike(user, result.values);
@@ -81,8 +82,8 @@ function crawlArtist(user, artist) {
 /* Adds a like to the database if it is not already present */
 function crawlLike(user, artist) {
   model.Like.find({ where: { user: user.id, artist: artist.id } })
-  .then(function(result) {
-    if (result === null) {
+  .then(function(like) {
+    if (_.isEmpty(like)) {
       model.Like.create({ user: user.id, artist: artist.id });
     }
   })

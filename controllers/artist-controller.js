@@ -4,7 +4,6 @@ var _ = require('lodash');
 /* Sets a like in the Like table for a given artist and user (by Facebook ID number) */
 exports.likeArtist = function(req, res) {
   if (_.isEmpty(req.user)) { return res.status(400).send({ error: 'Not currently logged in' }); }
-
   model.Artist.find({ where: { facebookId: req.params.id } })
   .then(function(artist) {
     if (_.isEmpty(artist)) { return res.status(400).send({ error: 'No artist found' }); }

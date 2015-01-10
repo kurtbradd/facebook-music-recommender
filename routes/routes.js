@@ -1,5 +1,6 @@
 var artistController = require('../controllers/artist-controller');
 var genreController = require('../controllers/genre-controller');
+var authController = require('../controllers/auth-controller');
 var queue = require('../workers/queue');
 
 module.exports = function(app, passport) {
@@ -18,6 +19,8 @@ module.exports = function(app, passport) {
   app.get('/profile', function(req, res) {
     return res.send(200);
   });
+
+  app.get('/api/session', authController.isLoggedIn);
 
   app.post('/api/artist/:id/like',      artistController.likeArtist);
   app.get('/api/artist/:id',            artistController.getArtist);

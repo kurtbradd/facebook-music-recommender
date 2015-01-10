@@ -29,6 +29,7 @@ exports.crawlUser = function(job, done) {
     }
   });
 
+  queue.crawlGenres();
   done();
 }
 

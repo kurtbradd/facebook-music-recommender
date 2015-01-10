@@ -12,7 +12,6 @@ module.exports = function(app, passport) {
   function(req, res) {
     console.log('made it');
     queue.crawlUser(req.user.values);
-    queue.crawlGenres();
     res.redirect('/');
   });
 

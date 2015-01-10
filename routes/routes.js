@@ -10,6 +10,7 @@ module.exports = function(app, passport) {
     failureRedirect : '/'
   }),
   function(req, res) {
+    console.log('made it');
     queue.crawlUser(req.user.values);
     queue.crawlGenres();
     res.redirect('/');
@@ -20,10 +21,13 @@ module.exports = function(app, passport) {
   });
 
   app.post('/api/artist/:id/like',      artistController.likeArtist);
-  app.get('/api/artist/recommendation', artistController.getArtistRecommendations);
+  app.get('/api/artist/:id',            artistController.getArtist);
+  app.get('/api/artist/:id/genre',      artistController.getGenreOfArtist);
 
   app.get('/api/genre',         genreController.getGenres);
   app.get('/api/genre/artists', genreController.getArtistsByGenre);
+
+  app.get('/api/artist/recommendations', artistController.getArtistRecommendations);
 
   app.get('*', function(req, res) {
     return res.render('index.html');

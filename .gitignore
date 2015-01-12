@@ -2,3 +2,4 @@
 /config/config.json
 keys.js
 .DS_STORE
+dump.rdb

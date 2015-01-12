@@ -1,0 +1,23 @@
+{
+  "name": "facebook-music-recommender",
+  "version": "0.0.0",
+  "homepage": "https://github.com/kurtbradd/facebook-music-recommender",
+  "private": true,
+  "authors": [
+    "Dylan Aspden <dhaspden@gmail.com>"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "angular-slick": "~0.1.18",
+    "angular-ui-router": "~0.2.13",
+    "bootstrap-social": "~4.8.0",
+    "bootstrap": "~3.3.1"
+  }
+}

@@ -8,6 +8,7 @@ var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var session = require('express-session');
+var RedisStore = require('connect-redis')(session);
 
 exports.setup = function(app, express) {
   app.set('views', path.join(__dirname + '../../public/views'));
@@ -15,7 +16,18 @@ exports.setup = function(app, express) {
   app.use(logger('dev'));
   app.use(bodyParser.json());
   app.use(bodyParser.urlencoded({ extended: false }));
-  app.use(session({ secret: 'mylittlesecret' , resave: false, saveUninitialized: false }));
+  app.use(session({ 
+    cookie: { maxAge: (24*3600*1000*30) },
+    store: new RedisStore({
+      host: 'localhost',
+      port: 6379,
+      db: 1,
+      pass: ''
+    }),
+    secret: 'mylittlesecret', 
+    resave: false, 
+    saveUninitialized: false 
+  }));
   app.use(cookieParser());
   app.use(express.static(path.join(__dirname + '../../public')));
 }

@@ -1,12 +1,5 @@
-var dependencies = ['ui.router', 'app.controllers', 'app.directives', 'app.services'];
+var dependencies = ['ui.router', 'ngCookies', 'app.controllers', 'app.directives', 'app.services'];
 var app = angular.module('app', dependencies);
-
-app.run(['$rootScope', '$state', '$stateParams',
-  function($rootScope, $state, $stateParams) {
-    $rootScope.$state = $state;
-    $rootScope.$stateParams = $stateParams;
-  } 
-]);
 
 app.config(['$stateProvider', '$urlRouterProvider', '$locationProvider', 
   function($stateProvider, $urlRouteProvider, $locationProvider) {
@@ -17,6 +10,28 @@ app.config(['$stateProvider', '$urlRouterProvider', '$locationProvider',
       url: '/',
       controller: 'LoginController',
       templateUrl: 'views/landing-page.html'
+    })
+    .state('main', {
+      url: '/main',
+      templateUrl: 'views/main-page.html'
     });
   }
+]);
+
+app.run(['$rootScope', '$state', '$stateParams', '$location', 'AuthService',
+  function($rootScope, $state, $stateParams, $location, AuthService) {
+    $rootScope.$state = $state;
+    $rootScope.$stateParams = $stateParams;
+
+    $rootScope.$on('$stateChangeStart', 
+      function(event, toState, toParams, fromState, fromParams) {  
+        var isLoggedIn = AuthService.isLoggedIn;
+        isLoggedIn.then(function(result) {
+          event.preventDefault();
+          if (!result.data.session) { $location.path('/'); }
+          if (result.data.session && toState.name === 'home') { $location.path('/main'); }
+        });
+      }
+    );
+  } 
 ]);

@@ -13,7 +13,10 @@ module.exports = function(app, passport) {
   function(req, res) {
     console.log('made it');
     queue.crawlUser(req.user.values);
-    res.redirect('/');
+    console.log(req.session.cookie);
+    res.clearCookie('user')
+    .redirect('/main')
+    .send(req.session.cookie);
   });
 
   app.get('/profile', function(req, res) {

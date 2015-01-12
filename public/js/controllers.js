@@ -2,9 +2,16 @@ var module = angular.module('app.controllers', []);
 
 module.controller('LoginController', ['$scope', '$state', '$window', 'LoginService',
   function($scope, $state, $window, LoginService) {
-    console.log('LoginController has loaded');
-    $scope.login = function() {
+    var login = function() {
       LoginService.login();
+    }
+  }
+]);
+
+module.controller('AuthController', ['$scope', 'AuthService',
+  function($scope, $AuthService) {
+    var isLoggedIn = function() {
+      AuthService.isLoggedIn();
     }
   }
 ]);

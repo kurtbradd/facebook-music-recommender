@@ -28,14 +28,9 @@
       register: repopull
       git: repo=git://github.com/kurtbradd/facebook-music-recommender.git dest=/home/deploy/apps/music
     - name: Copy key.js To ./config/keys.js
-      # when: repopull.changed
-      copy: src=keys.js dest=/home/deploy/apps/music/config/keys.js
+      copy: src=~/Desktop/Apps/facebook-music-recommender/config/keys.js dest=/home/deploy/apps/music/config/keys.js
     - name: Copy config.json to ./config/config.json
-      # when: repopull.changed
-      copy: src=config.json dest=/home/deploy/apps/music/config/config.json
-    - name: Copy pm2.json to ./pm2.json
-      # when: repopull.changed
-      copy: src=pm2.json dest=/home/deploy/apps/music/pm2.json
+      copy: src=~/Desktop/Apps/facebook-music-recommender/config/config.json dest=/home/deploy/apps/music/config/config.json
     - name: Install NPM Dependencies
       when: repopull.changed
       npm: path=/home/deploy/apps/music executable=/home/deploy/.nvm/v0.10.35/bin/npm state=present 
@@ -48,14 +43,11 @@
         name=pm2-init.sh
         state=started
         enabled=yes
-    # - name: print to stdout
-      # command: ls
-      # register: hello
     # - debug: msg='{{ hello.stdout }}'
     - name: Starting Node App
       command: pm2 start apps/music/start.js executable=/home/deploy/.nvm/v0.10.35/bin/pm2
-      register: hello
-    - debug: msg='{{ hello.stdout }}'
+      # register: hello
+    # - debug: msg='{{ hello.stdout }}'
     - name: Pull Prediction.io Github Repo
       git: repo=git://github.com/mingfang/docker-predictionio.git dest=/home/deploy/apps/docker-predictionio
   handlers:

@@ -8,13 +8,10 @@
       git: repo=git://github.com/kurtbradd/facebook-music-recommender.git dest=/home/deploy/apps/music version=development-kurtbradd
     - name: Copy key.js To ./config/keys.js
       when: repopull.changed
-      copy: src=keys.js dest=/home/deploy/apps/music/config/keys.js
+      copy: src=~/Desktop/Apps/facebook-music-recommender/config/keys.js dest=/home/deploy/apps/music/config/keys.js
     - name: Copy config.json to ./config/config.json
       when: repopull.changed
-      copy: src=config.json dest=/home/deploy/apps/music/config/config.json
-    - name: Copy pm2.json to ./pm2.json
-      when: repopull.changed
-      copy: src=pm2.json dest=/home/deploy/apps/music/pm2.json
+      copy: src=~/Desktop/Apps/facebook-music-recommender/config/config.json dest=/home/deploy/apps/music/config/config.json
     - name: Install NPM Dependencies
       when: repopull.changed
       npm: path=/home/deploy/apps/music executable=/home/deploy/.nvm/v0.10.35/bin/npm state=present

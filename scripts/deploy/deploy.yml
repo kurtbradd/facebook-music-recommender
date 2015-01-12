@@ -1,0 +1,68 @@
+# ansible-playbook -i hosts deploy.yml --ask-sudo-pass
+#http://www.cyberciti.biz/faq/howto-add-postgresql-user-account/
+---
+- hosts: all
+  tasks:
+    - name: Install NVM v0.22.0
+      register: nodechange
+      shell: >
+        curl https://raw.githubusercontent.com/creationix/nvm/v0.22.0/install.sh | sh
+        creates=/home/{{ ansible_user_id }}/.nvm/nvm.sh
+    - name: Install Node v0.10.35
+      when: nodechange.changed
+      shell: >
+        /bin/bash -c "source ~/.nvm/nvm.sh && nvm install 0.10.35 && nvm alias default 0.10.35"
+        creates=/home/{{ ansible_user_id }}/.nvm/alias
+    - name: Installing PostgreSQL
+      sudo: true
+      apt: name={{item}} state=latest
+      register: pgchange
+      with_items:
+        - postgresql-9.3
+        - postgresql-contrib-9.3
+        - python-psycopg2
+    - name: Check PostgreSQL is running
+      sudo: true
+      service: name=postgresql state=started enabled=yes
+    - name: Pull Github Repo:kurtbradd/facebook-music-recommender
+      register: repopull
+      git: repo=git://github.com/kurtbradd/facebook-music-recommender.git dest=/home/deploy/apps/music
+    - name: Copy key.js To ./config/keys.js
+      # when: repopull.changed
+      copy: src=keys.js dest=/home/deploy/apps/music/config/keys.js
+    - name: Copy config.json to ./config/config.json
+      # when: repopull.changed
+      copy: src=config.json dest=/home/deploy/apps/music/config/config.json
+    - name: Copy pm2.json to ./pm2.json
+      # when: repopull.changed
+      copy: src=pm2.json dest=/home/deploy/apps/music/pm2.json
+    - name: Install NPM Dependencies
+      when: repopull.changed
+      npm: path=/home/deploy/apps/music executable=/home/deploy/.nvm/v0.10.35/bin/npm state=present 
+    - name: Install PM2 Dependencies
+      npm: name=pm2 executable=/home/deploy/.nvm/v0.10.35/bin/npm global=yes state=latest version=0.12.3
+      notify: restart pm2
+    - name: Configuring service
+      sudo: true
+      service: > 
+        name=pm2-init.sh
+        state=started
+        enabled=yes
+    # - name: print to stdout
+      # command: ls
+      # register: hello
+    # - debug: msg='{{ hello.stdout }}'
+    - name: Starting Node App
+      command: pm2 start apps/music/start.js executable=/home/deploy/.nvm/v0.10.35/bin/pm2
+      register: hello
+    - debug: msg='{{ hello.stdout }}'
+    - name: Pull Prediction.io Github Repo
+      git: repo=git://github.com/mingfang/docker-predictionio.git dest=/home/deploy/apps/docker-predictionio
+  handlers:
+    - name: restart pm2
+      service: name=pm2-init.sh state=restarted
+- hosts: all  
+  roles:
+    - { role: DavidWittman.redis, sudo: yes }
+  vars:
+    - redis_version: 2.8.14

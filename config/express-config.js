@@ -21,7 +21,8 @@ exports.setup = function(app, express) {
     store: new RedisStore({
       host: 'localhost',
       port: 6379,
-      db: 0
+      db: 1,
+      pass: ''
     }),
     secret: 'mylittlesecret', 
     resave: false, 

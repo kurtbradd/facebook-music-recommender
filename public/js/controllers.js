@@ -8,7 +8,7 @@ module.controller('LoginController', ['$scope', 'LoginService',
   }
 ]);
 
-module.controller('AppController', ['$scope', '$state', 'LoginService',
+module.controller('AppController', ['$scope', '$state', '$cookies', 'LoginService',
   function($scope, $state, $cookies, LoginService) {
     $scope.logout = function() {
       LoginService.logout(function(error) {

@@ -8,16 +8,14 @@ var eventClient = new predictionio.Events({
 	url: config.eventUrl
 });
 
-
 eventClient.status()
 .then(function(status) {
-	console.log(status);
+	console.log("Prediction.io Status: " + status.status);
 });
 
-engineClient.sendQuery({
-	user: 3,
-	num: 3
-})
-.then(function (result) {
-	console.log(result);
-});
+exports.recommendationsForUser = function (userId, numRecommendations, cb) {
+	engineClient.sendQuery({
+		user: userId,
+		num: numRecommendations
+	}, cb)
+}

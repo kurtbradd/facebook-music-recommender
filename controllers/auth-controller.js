@@ -10,8 +10,7 @@ exports.login = function(req, res) {
   queue.crawlUser(req.user.values);
   res.cookie('user', JSON.stringify({ cookie: req.session.cookie,  accessToken: req.user.values.v2AccessToken, 
                                       id: req.user.values.facebookId }))
-  .redirect('/main')
-  .send();
+  .redirect('/main');
 }
 
 /* Logs the user out of their session and deletes their cookie */

@@ -21,4 +21,9 @@
       </ul>
     </div>
   </nav>
+  <div>
+    <div ng-repeat='i in recommendations'>
+      <a href={{i.artistInfo.link}}>{{i.artistInfo.name}}</a>
+    </div>
+  </div>
 </div>  

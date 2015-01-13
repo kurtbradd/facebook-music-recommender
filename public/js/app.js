@@ -24,8 +24,6 @@ app.run(['$rootScope', '$state', '$stateParams', '$cookies', 'AuthService',
     $rootScope.$state = $state;
     $rootScope.$stateParams = $stateParams;
 
-    console.log($cookies);
-
     $rootScope.$on('$stateChangeStart', 
       function(event, toState, toParams, fromState, fromParams) {
         if (toState.name === 'main') {

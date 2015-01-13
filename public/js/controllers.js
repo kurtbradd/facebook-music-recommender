@@ -19,6 +19,7 @@ module.controller('AppController', ['$scope', '$state', '$cookies', 'LoginServic
     }
 
     $scope.getPictureLink = function() {
+      if (!$cookies.user) return;
       var facebookUrl = 'https://graph.facebook.com/v2.2/';
       facebookUrl += JSON.parse($cookies.user).id;
       facebookUrl += '/picture?format=json&access_token=';

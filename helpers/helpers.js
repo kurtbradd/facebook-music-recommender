@@ -11,6 +11,7 @@ exports.getOffset = function(req) {
   return 0;
 }
 
+/* Calculates the offset for the next paging element in an API call */
 exports.calculateOffset = function(object) {
   if (_.isEmpty(object)) { 
     return; 

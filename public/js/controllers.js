@@ -2,7 +2,7 @@ var module = angular.module('app.controllers', []);
 
 module.controller('LoginController', ['$scope', '$state', '$window', 'LoginService',
   function($scope, $state, $window, LoginService) {
-    var login = function() {
+    $scope.login = function() {
       LoginService.login();
     }
   }
@@ -10,7 +10,7 @@ module.controller('LoginController', ['$scope', '$state', '$window', 'LoginServi
 
 module.controller('AuthController', ['$scope', 'AuthService',
   function($scope, $AuthService) {
-    var isLoggedIn = function() {
+    $scope.isLoggedIn = function() {
       AuthService.isLoggedIn();
     }
   }

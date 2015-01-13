@@ -25,7 +25,7 @@ app.run(['$rootScope', '$state', '$stateParams', '$location', 'AuthService',
 
     $rootScope.$on('$stateChangeStart', 
       function(event, toState, toParams, fromState, fromParams) {  
-        var isLoggedIn = AuthService.isLoggedIn;
+        var isLoggedIn = AuthService.isLoggedIn();
         isLoggedIn.then(function(result) {
           event.preventDefault();
           if (!result.data.session) { $location.path('/'); }

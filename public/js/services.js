@@ -5,7 +5,7 @@ module.factory('LoginService', ['$window',
     var login = function() {
       $window.location.href = '/auth/facebook';
     }
-    return { login: login() }
+    return { login: login }
   }
 ]);
 
@@ -19,6 +19,6 @@ module.factory('AuthService', ['$http', '$rootScope',
         }
       });
     }
-    return { isLoggedIn: isLoggedIn() }
+    return { isLoggedIn: isLoggedIn }
   }
 ]);

@@ -25,6 +25,7 @@ exports.setup = function(app, express) {
       pass: ''
     }),
     secret: 'mylittlesecret', 
+    unset: 'destroy',
     resave: false, 
     saveUninitialized: false 
   }));

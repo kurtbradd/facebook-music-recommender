@@ -13,25 +13,35 @@ app.config(['$stateProvider', '$urlRouterProvider', '$locationProvider',
     })
     .state('main', {
       url: '/main',
+      controller: 'AppController',
       templateUrl: 'views/main-page.html'
     });
   }
 ]);
 
-app.run(['$rootScope', '$state', '$stateParams', '$location', 'AuthService',
-  function($rootScope, $state, $stateParams, $location, AuthService) {
+app.run(['$rootScope', '$state', '$stateParams', '$cookies', 'AuthService',
+  function($rootScope, $state, $stateParams, $cookies, AuthService) {
     $rootScope.$state = $state;
     $rootScope.$stateParams = $stateParams;
 
+    console.log($cookies);
+
     $rootScope.$on('$stateChangeStart', 
-      function(event, toState, toParams, fromState, fromParams) {  
-        var isLoggedIn = AuthService.isLoggedIn();
-        isLoggedIn.then(function(result) {
-          event.preventDefault();
-          if (!result.data.session) { $location.path('/'); }
-          if (result.data.session && toState.name === 'home') { $location.path('/main'); }
-        });
+      function(event, toState, toParams, fromState, fromParams) {
+        if (toState.name === 'main') {
+          if (!AuthService.isLoggedIn()) {
+            event.preventDefault();
+            $state.go('home');
+          }
+        }
+        else if (toState.name === 'home') {
+          if (AuthService.isLoggedIn()) {
+            event.preventDefault();
+            $state.go('main');
+          }
+        }
       }
     );
+
   } 
 ]);

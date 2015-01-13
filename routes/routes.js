@@ -13,7 +13,6 @@ module.exports = function(app, passport) {
     authController.login
   );
 
-  app.get('/api/session',                authController.isLoggedIn);
   app.get('/api/logout',                 authController.logout);
 
   app.post('/api/like/:id',              likeController.setLike);

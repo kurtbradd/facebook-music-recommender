@@ -1,24 +1,31 @@
 var module = angular.module('app.services', []);
 
-module.factory('LoginService', ['$window',
-  function($window) {
+module.factory('LoginService', ['$window', '$http', '$cookies',
+  function($window, $http, $cookies) {
     var login = function() {
       $window.location.href = '/auth/facebook';
     }
-    return { login: login }
+
+    var logout = function(callback) {
+      $http.get('/api/logout')
+      .success(function(response) {
+        delete $cookies.user;
+        return callback();
+      })
+      .error(function(error) {
+        return callback(error);
+      });
+    }
+
+    return { login: login, logout: logout }
   }
 ]);
 
-module.factory('AuthService', ['$http', '$rootScope',
-  function($http, $rootScope) {
+module.factory('AuthService', ['$cookies', function($cookies) {
     var isLoggedIn = function() {
-      return $http.get('/api/session')
-      .success(function(response) {
-        if (response.data) { 
-          if (response.data.session) { $rootScope.session = response.data.session;  }
-        }
-      });
+      return $cookies.user !== undefined;
     }
-    return { isLoggedIn: isLoggedIn }
+
+    return { isLoggedIn: isLoggedIn}
   }
 ]);

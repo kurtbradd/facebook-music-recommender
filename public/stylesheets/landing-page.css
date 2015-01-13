@@ -3,6 +3,7 @@
   -moz-filter: blur(30px);
   -o-filter: blur(30px);
   -ms-filter: blur(30px);
+  filter: blur(30px);
 }
 
 #bg_container {

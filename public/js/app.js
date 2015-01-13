@@ -19,10 +19,15 @@ app.config(['$stateProvider', '$urlRouterProvider', '$locationProvider',
   }
 ]);
 
-app.run(['$rootScope', '$state', '$stateParams', '$cookies', 'AuthService',
-  function($rootScope, $state, $stateParams, $cookies, AuthService) {
+app.run(['$rootScope', '$state', '$stateParams', '$cookies', '$window', 'AuthService',
+  function($rootScope, $state, $stateParams, $cookies, $window, AuthService) {
     $rootScope.$state = $state;
     $rootScope.$stateParams = $stateParams;
+
+    if ($window.location.hash == '#_=_') {
+      $window.location.hash = '';
+      history.pushState('', document.title, window.location.pathname);
+    }
 
     $rootScope.$on('$stateChangeStart', 
       function(event, toState, toParams, fromState, fromParams) {

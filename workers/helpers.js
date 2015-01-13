@@ -63,7 +63,7 @@ function crawlArtist(user, artist) {
   model.Artist.find({ where: { facebookId: artist.id } })
   .then(function(result) {
     if (_.isEmpty(result)) {
-      model.Artist.create({ facebookId: artist.id })
+      model.Artist.create({ name: artist.name, facebookId: artist.id })
       .then(function(result) {
         crawlLike(user, result.values);
       })

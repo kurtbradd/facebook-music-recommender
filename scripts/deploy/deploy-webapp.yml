@@ -1,5 +1,4 @@
 # ansible-playbook -i hosts deploy.yml --ask-sudo-pass
-#http://www.cyberciti.biz/faq/howto-add-postgresql-user-account/
 ---
 - hosts: all
   tasks:

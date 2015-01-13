@@ -1,7 +1,6 @@
 <div id="bg_container">
   <img id="bg" src="img/blur-bg.jpg">
 </div>
-
 <div class="bs-example">
   <nav role="navigation" class="navbar navbar-inverse">
     <div class="navbar-header">
@@ -25,4 +24,9 @@
       </ul>
     </div>
   </nav>
+  <div>
+    <div ng-repeat='i in recommendations'>
+      <a href={{i.artistInfo.link}}>{{i.artistInfo.name}}</a>
+    </div>
+  </div>
 </div>  

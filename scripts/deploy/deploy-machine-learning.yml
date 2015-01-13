@@ -1,0 +1,6 @@
+# ansible-playbook -i hosts deploy.yml --ask-sudo-pass
+---
+- hosts: all
+  tasks:
+    - name: Copy Scala Recommendation App
+      copy: src=~/Desktop/Apps/facebook-music-recommender/engine dest=/home/deploy/apps/

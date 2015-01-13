@@ -18,13 +18,13 @@ module.exports = function(app, passport) {
   app.post('/api/like/:id',              likeController.setLike);
   app.get('/api/like',                   likeController.getLikes);
 
+  app.get('/api/artist/recommendations', artistController.getArtistRecommendations);
   app.get('/api/artist/:id',             artistController.getArtist);
   app.get('/api/artist/:id/genre',       artistController.getGenreOfArtist);
 
   app.get('/api/genre',                  genreController.getGenres);
   app.get('/api/genre/artists',          genreController.getArtistsByGenre);
 
-  app.get('/api/artist/recommendations', artistController.getArtistRecommendations);
 
   app.get('*', function(req, res) { 
     return res.render('index.html'); 

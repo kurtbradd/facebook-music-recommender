@@ -1,0 +1,10 @@
+# ansible-playbook -i hosts deploy.yml --ask-sudo-pass
+---
+- hosts: all
+  tasks:
+    - name: Copy PostgreSQL DB Config
+      sudo: true
+      copy: src=./config/postgresql.conf dest=/etc/postgresql/9.3/main/postgresql.conf
+    - name: Copy PostgreSQL User Config
+      sudo: true
+      copy: src=./config/pg_hba.conf dest=/etc/postgresql/9.3/main/pg_hba.conf

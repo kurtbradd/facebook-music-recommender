@@ -1,0 +1,2 @@
+[servers]
+162.243.227.24 ansible_connection=ssh ansible_ssh_user=deploy

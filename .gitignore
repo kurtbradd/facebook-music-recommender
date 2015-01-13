@@ -4,3 +4,6 @@
 /public/video/*
 keys.js
 .DS_STORE
+dump.rdb
+
+scripts/deploy/config/*

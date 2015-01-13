@@ -19,6 +19,7 @@ app.config(['$stateProvider', '$urlRouterProvider', '$locationProvider',
   }
 ]);
 
+
 app.run(['$rootScope', '$state', '$stateParams', '$cookies', '$window', 'AuthService',
   function($rootScope, $state, $stateParams, $cookies, $window, AuthService) {
     $rootScope.$state = $state;

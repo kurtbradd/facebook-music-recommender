@@ -1,5 +1,5 @@
 var kue = require('kue');
-var jobs = kue.createQueue();
+var jobs = kue.createQueue({ redis: { db: 2 } });
 
 /* Creates job for crawling the initial page of music likes */
 exports.crawlUser = function(user) {

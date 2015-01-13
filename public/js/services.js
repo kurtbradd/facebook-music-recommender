@@ -25,7 +25,6 @@ module.factory('AuthService', ['$cookies', function($cookies) {
     var isLoggedIn = function() {
       return $cookies.user !== undefined;
     }
-
     return { isLoggedIn: isLoggedIn}
   }
 ]);

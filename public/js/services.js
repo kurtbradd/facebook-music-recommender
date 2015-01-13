@@ -29,3 +29,33 @@ module.factory('AuthService', ['$cookies', function($cookies) {
     return { isLoggedIn: isLoggedIn}
   }
 ]);
+
+module.factory('PredictionService', ['$http', function ($http) {
+  return {
+    getRecommendations: function (cb) {
+      var apiEndpoint = '/api/artist/recommendations'
+      $http.get(apiEndpoint)
+      .success(function (results) {
+        cb(null, results);
+      })
+      .error(function (err) {
+        cb(err);
+      }) 
+    }
+  }
+}])
+
+module.factory('GraphAPI', ['$http', function ($http) {
+  return {
+    getInfoForPage: function (pageID, cb) {
+      var apiEndpoint = 'https://graph.facebook.com/' + pageID;
+      $http.get(apiEndpoint)
+      .success(function (data) {
+        cb(null, data);
+      })
+      .error(function (err) {
+        cb(err);
+      }) 
+    }
+  }
+}])

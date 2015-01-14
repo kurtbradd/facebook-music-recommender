@@ -1,0 +1,29 @@
+body {
+  background: url(../img/blur-bg.jpg) no-repeat center center fixed;
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+}
+
+/* Makes the navbar 50% transparent */
+.navbar {
+   background: rgba(0, 0, 0, 0.5);
+}
+
+/* Inlines the user Facebook profile picture on the navbar with their name */
+.user-picture {
+  height: 200%; 
+  margin-top: -10px; 
+  border-radius: 8%;
+}
+
+/* Moves the users name closer to the profile picture */
+.user-name {
+  margin-left: 10px;
+}
+
+/* Fixes ng-click pointer changing to text box cursor */
+.logout-button {
+  cursor: pointer;
+}

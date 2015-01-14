@@ -10,13 +10,10 @@
 
     <link rel="stylesheet" href="components/bootstrap/dist/css/bootstrap.min.css">
     <link rel="stylesheet" href="components/font-awesome/css/font-awesome.min.css">
-    <link rel="stylesheet" href="components/bootstrap-social/bootstrap-social.css">
-    <link rel="stylesheet" href="components/slick-carousel/slick/slick.css">
-    <link rel="stylesheet" href="stylesheets/landing-page.css">
-    <link rel="stylesheet" href="stylesheets/style.css">
   </head>
 
   <body ng-app="app">
+    <link rel="stylesheet" ng-href="{{$state.current.data.css}}">
     <base href="/">
 
     <div ui-view></div>
@@ -25,8 +22,6 @@
     <script src="components/angular/angular.min.js"                             type="text/javascript"></script>
     <script src="components/angular-cookies/angular-cookies.min.js"             type="text/javascript"></script>
     <script src="components/angular-ui-router/release/angular-ui-router.min.js" type="text/javascript"></script>
-    <script src="components/slick-carousel/slick/slick.min.js"                  type="text/javascript"></script>
-    <script src="components/angular-slick/dist/slick.min.js"                    type="text/javascript"></script>
     <script src="components/bootstrap/dist/js/bootstrap.min.js"                 type="text/javascript"></script>
 
     <script src="js/app.js"                       type="text/javascript"></script>

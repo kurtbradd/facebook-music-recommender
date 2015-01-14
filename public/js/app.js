@@ -9,12 +9,18 @@ app.config(['$stateProvider', '$urlRouterProvider', '$locationProvider',
     .state('home', {
       url: '/',
       controller: 'LoginController',
-      templateUrl: 'views/landing-page.html'
+      templateUrl: 'views/landing-page.html',
+      data: {
+        css: 'stylesheets/landing-page.css'
+      }
     })
     .state('main', {
       url: '/main',
       controller: 'AppController',
-      templateUrl: 'views/main-page.html'
+      templateUrl: 'views/main-page.html',
+      data: {
+        css: 'stylesheets/main-page.css'
+      }
     });
   }
 ]);
@@ -46,6 +52,5 @@ app.run(['$rootScope', '$state', '$stateParams', '$cookies', '$window', 'AuthSer
         }
       }
     );
-
   } 
 ]);

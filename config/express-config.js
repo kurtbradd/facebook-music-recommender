@@ -19,7 +19,7 @@ exports.setup = function(app, express) {
   app.use(cookieParser());
 
   app.use(session({ 
-    cookie: { maxAge: (24*3600*1000*30), httpOnly: true },
+    cookie: { maxAge: (24*3600*1000*30) },
     store: new RedisStore({
       host: 'localhost',
       port: 6379,
@@ -27,7 +27,6 @@ exports.setup = function(app, express) {
       pass: ''
     }),
     secret: 'mylittlesecret', 
-    unset: 'destroy',
     resave: false, 
     saveUninitialized: false 
   }));

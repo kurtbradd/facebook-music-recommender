@@ -40,7 +40,7 @@ module.exports = function(app, passport) {
       // Performs verification asynchronously
       process.nextTick(function() {
         // Queries the database to see if the user is already stored there
-        model.User.find({ where: { facebookId: profile.id }}, {})
+        model.User.find({ where: { facebookId: profile.id }})
         
         .then(function(user) {
           // If the user is not stored in the database, then store the user there

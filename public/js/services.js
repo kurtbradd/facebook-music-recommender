@@ -46,10 +46,10 @@ module.factory('PredictionService', ['$http',
   }    
 ]);
 
-module.factory('GraphService', ['$http', '$cookies', 
+module.factory('APIService', ['$http', '$cookies', 
   function ($http, $cookies) {
-    var getPageInfo = function(pageId, callback) {
-      var apiEndpoint = 'https://graph.facebook.com/' + pageId + '?format=json&access_token=' + JSON.parse($cookies.user).accessToken;
+    var getPageInfo = function(artistId, callback) {
+      var apiEndpoint = '/api/artist/' + artistId;
       $http.get(apiEndpoint)
       .success(function(results) {
         callback(null, results);

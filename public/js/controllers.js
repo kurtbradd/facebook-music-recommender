@@ -8,8 +8,8 @@ module.controller('LoginController', ['$scope', 'LoginService',
   }
 ]);
 
-module.controller('AppController', ['$scope', '$state', '$cookies', '$http', 'LoginService', 'PredictionService', 'GraphService',
-  function($scope, $state, $cookies, $http,LoginService, PredictionService, GraphService) {
+module.controller('AppController', ['$scope', '$state', '$cookies', '$http', 'LoginService', 'PredictionService', 'APIService',
+  function($scope, $state, $cookies, $http,LoginService, PredictionService, APIService) {
 
     $scope.recommendations = null;
 
@@ -52,33 +52,11 @@ module.controller('AppController', ['$scope', '$state', '$cookies', '$http', 'Lo
 
     PredictionService.getRecommendations(function(error, results) {
       var recommendations = results.itemScores
-      ,   artistInfo      = {}
-      ,   count           = 0
-
-      ,   done = function () {
-        count++;
-
-        if (count === recommendations.length) {
-          $scope.recommendations = recommendations.map(function(map) {
-            var artistData = artistInfo[map.item]
-            ,   isArtist = null;
-
-            if (artistData && artistData.hasOwnProperty('category')) {
-              if (artistData.category === "Musician/band") isArtist = true;
-            }
-            return { artistInfo: artistData, score: map.score, isArtist: isArtist };
-          })
-
-          .filter(function (filter) {
-            if (filter.isArtist) return true;
-          });
-        }
-      }
+      ,   artistInfo      = {};
 
       recommendations.forEach(function(result) {
-        GraphService.getPageInfo(result.item, function(error, data) {
-          done();
-          if (data && data.name) artistInfo[result.item] = data;
+        APIService.getPageInfo(result.item, function(error, data) {
+          if (data && data.data) artistInfo[result.item] = data.data;
         });
       });
     });

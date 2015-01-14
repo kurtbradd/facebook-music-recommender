@@ -21,40 +21,43 @@ module.factory('LoginService', ['$window', '$http', '$cookies',
   }
 ]);
 
-module.factory('AuthService', ['$cookies', function($cookies) {
+module.factory('AuthService', ['$cookies', 
+  function($cookies) {
     var isLoggedIn = function() {
       return $cookies.user !== undefined;
     }
-    return { isLoggedIn: isLoggedIn}
+    return { isLoggedIn: isLoggedIn }
   }
 ]);
 
-module.factory('PredictionService', ['$http', function ($http) {
-  return {
-    getRecommendations: function (cb) {
+module.factory('PredictionService', ['$http', 
+  function ($http) {
+    var getRecommendations = function(callback) {
       var apiEndpoint = '/api/artist/recommendations'
       $http.get(apiEndpoint)
       .success(function (results) {
-        cb(null, results);
+        callback(null, results);
       })
       .error(function (err) {
-        cb(err);
-      }) 
+        callback(err);
+      }); 
     }
-  }
-}])
+    return { getRecommendations: getRecommendations } 
+  }    
+]);
 
-module.factory('GraphAPI', ['$http', function ($http) {
-  return {
-    getInfoForPage: function (pageID, cb) {
-      var apiEndpoint = 'https://graph.facebook.com/' + pageID;
+module.factory('GraphService', ['$http', '$cookies', 
+  function ($http, $cookies) {
+    var getPageInfo = function(pageId, callback) {
+      var apiEndpoint = 'https://graph.facebook.com/' + pageId + '?format=json&access_token=' + JSON.parse($cookies.user).accessToken;
       $http.get(apiEndpoint)
-      .success(function (data) {
-        cb(null, data);
+      .success(function(results) {
+        callback(null, results);
       })
-      .error(function (err) {
-        cb(err);
-      }) 
+      .error(function(error) {
+        callback(error);
+      });
     }
+    return { getPageInfo: getPageInfo }
   }
-}])
+]);

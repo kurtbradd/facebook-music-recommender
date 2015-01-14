@@ -8,8 +8,8 @@ module.controller('LoginController', ['$scope', 'LoginService',
   }
 ]);
 
-module.controller('AppController', ['$scope','$state','$cookies','$http','LoginService','PredictionService','GraphAPI',
-  function($scope, $state, $cookies, $http,LoginService, PredictionService, GraphAPI) {
+module.controller('AppController', ['$scope', '$state', '$cookies', '$http', 'LoginService', 'PredictionService', 'GraphService',
+  function($scope, $state, $cookies, $http,LoginService, PredictionService, GraphService) {
 
     $scope.recommendations = null;
 
@@ -21,16 +21,7 @@ module.controller('AppController', ['$scope','$state','$cookies','$http','LoginS
       });
     }
 
-    getPictureLink = function() {
-      if (!$cookies.user) return;
-      var facebookUrl = 'https://graph.facebook.com/v2.2/';
-      facebookUrl += JSON.parse($cookies.user).id;
-      facebookUrl += '/picture?format=json&access_token=';
-      facebookUrl += JSON.parse($cookies.user).accessToken;
-      return facebookUrl;
-    }
-
-    getUsername = function() {
+    $scope.getUsername = function() {
       if (!$cookies.user) return;
       var facebookUrl = 'https://graph.facebook.com/v2.2/';
       facebookUrl += JSON.parse($cookies.user).id;
@@ -40,17 +31,13 @@ module.controller('AppController', ['$scope','$state','$cookies','$http','LoginS
       .success(function(response) {
         if (response.name) $scope.user.name = response.name;
       })
-      .error(function (err) {
-        $scope.userInfo.name = "Hey there!";
+      .error(function (error) {
+        $scope.userInfo.name = null;
       });
     }
 
-    $scope.user = {
-      picture: getPictureLink(),
-      name: getUsername()
-    }
-
     $scope.getPictureLink = function() {
+      if (!$cookies.user) return;
       var facebookUrl = 'https://graph.facebook.com/v2.2/';
       facebookUrl += JSON.parse($cookies.user).id;
       facebookUrl += '/picture?format=json&access_token=';
@@ -58,31 +45,43 @@ module.controller('AppController', ['$scope','$state','$cookies','$http','LoginS
       return facebookUrl;
     }
 
-    PredictionService.getRecommendations(function (err, results) {
-      var recommendations = results.itemScores;
-      var artistInfo = {};
-      var count = 0;
-      var done = function () {
+    $scope.user = {
+      picture: $scope.getPictureLink(),
+      name: $scope.getUsername()
+    }
+
+    PredictionService.getRecommendations(function(error, results) {
+      var recommendations = results.itemScores
+      ,   artistInfo      = {}
+      ,   count           = 0
+
+      ,   done = function () {
         count++;
-        if (count == recommendations.length) {
-          $scope.recommendations = recommendations.map(function (map) {
-            var artistData = artistInfo[map.item];
-            var isArtist = null;
+
+        if (count === recommendations.length) {
+          $scope.recommendations = recommendations.map(function(map) {
+            var artistData = artistInfo[map.item]
+            ,   isArtist = null;
+
             if (artistData && artistData.hasOwnProperty('category')) {
-              if (artistData.category == "Musician/band") isArtist = true;
+              if (artistData.category === "Musician/band") isArtist = true;
             }
-            return {artistInfo: artistData, score: map.score, isArtist:isArtist};
-          }).filter(function (filter) {
+            return { artistInfo: artistData, score: map.score, isArtist: isArtist };
+          })
+
+          .filter(function (filter) {
             if (filter.isArtist) return true;
           });
         }
       }
-      recommendations.forEach(function (result) {
-        GraphAPI.getInfoForPage(result.item, function (err, data) {
+
+      recommendations.forEach(function(result) {
+        GraphService.getPageInfo(result.item, function(error, data) {
           done();
           if (data && data.name) artistInfo[result.item] = data;
-        })
-      })
+        });
+      });
     });
+
   }
 ]);

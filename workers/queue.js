@@ -31,3 +31,13 @@ exports.crawlGenres = function() {
     if (err) console.log(err);
   });
 };
+
+/* Creates a job for crawling the artist cover photo on their Facebook page */
+exports.crawlImages = function() {
+  var job = jobs.create('crawlImages', {
+    limit: 20
+  })
+  .save(function(err) {
+    if (err) console.log(err);
+  });
+};

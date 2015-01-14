@@ -30,11 +30,37 @@ exports.crawlUser = function(job, done) {
   });
 
   queue.crawlGenres();
+  queue.crawlImages();
+  done();
+}
+
+/* Crawls for artist Facebook cover photos and stores them in database */
+exports.crawlImages = function(job, done) {
+  model.Artist.findAll({ where: { picture: null }, limit: job.data.limit })
+  .then(function(artists) {
+    artists.forEach(function(artist) {
+      if (artist) {
+        var facebookUrl = 'https://graph.facebook.com/' + artist.dataValues.facebookId;
+        request.get(facebookUrl, function(error, response, body) {
+          var data = JSON.parse(body);
+          if (data.cover && data.cover.source) {
+            artist.updateAttributes({ picture: data.cover.source });
+          }
+          else {
+            artist.updateAttributes({ picture: 'None' });
+          }
+        });
+      }
+    });
+  })
+  .catch(function(err) {
+    console.log(err);
+  });
   done();
 }
 
 /* Adds a genre to the database if it is not already present */
-exports.crawlGenre = function(artist) {
+exports.crawlGenre = function(artist, done) {
   var echonestUrl = 'http://developer.echonest.com/api/v4/artist/genres?api_key=';
   echonestUrl += keys.echonest.APP_ID;
   echonestUrl += '&id=facebook:artist:';

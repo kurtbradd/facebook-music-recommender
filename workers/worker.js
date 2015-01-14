@@ -22,3 +22,8 @@ jobs.process('crawlGenres', function(job, done) {
   done();
 });
 
+/* Processes the job for crawling the cover photo and entering it into the database */
+jobs.process('crawlImages', function(job, done) {
+  helpers.crawlImages(job, done);
+});
+

@@ -17,6 +17,10 @@ exports.getArtist = function(req, res) {
     if (_.isEmpty(artist)) { 
       return res.status(400).send({ error: { message: 'No artist found with given input identifier.' } }); 
     }
+
+    if (!artist.values.picture || artist.values.picture === 'None') delete artist.values.picture;
+    if (!artist.values.genre || artist.values.genre === -1)         delete artist.values.genre;
+
     return res.status(200).send({ data: artist.values });
   })
 
@@ -43,7 +47,7 @@ exports.getGenreOfArtist = function(req, res) {
     model.Genre.find({ where: { id: artist.values.genre } })
     .then(function(genre) {
       if (_.isEmpty(genre)) { 
-        return res.status(200).send({ data: { id: -1, genre: 'None found' } }); 
+        return res.status(400).send({ error: { message: 'No genre found for this artist.' } }); 
       }
      return res.status(200).send({ data: genre.values });
     })
@@ -60,7 +64,6 @@ exports.getGenreOfArtist = function(req, res) {
 /* Retrieves the artist recommendations for the user */
 exports.getArtistRecommendations = function(req, res) {
   if (!req.user) return res.status(400).send('Not Logged In');
-  console.log(req.user);
   // hard coded for Dylans profileId (v1.0)
   Predictions.recommendationsForUser(672280485, 40, 
     function (err, results) {
